@@ -22,8 +22,9 @@ https://github.com/opencoca/startr
 
 ## To install your repos:
 
-You will need to have git installed 
-`sudo apt install git git-flow`
+You will need to have git and the following packages installed 
+`sudo apt install git git-flow zlib1g-dev
+`
 
 ## To create your ssh key:
 ```
@@ -42,3 +43,30 @@ to show your ssh key use command `cat /home/username/.ssh/id_rsa.pub`
 
 clone a repo to directory of your choosing by using the following command
 `git clone git@github.com:username/project.git` (found by clicking dropdown on download)
+
+## USE PYENV and PIPENV
+
+https://github.com/pyenv/pyenv-installer
+
+### Pyenv Install:
+
+```source-shell
+$ curl https://pyenv.run | bash
+```
+
+`pyenv.run` redirects to the install script in this repository and the invocation above is equivalent to:
+
+$ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+Restart your shell so the path changes take effect:
+
+```source-shell
+$ exec $SHELL
+```
+
+You can now begin using pyenv.
+
+If you need, `export USE_GIT_URI` to use `git://` instead of `https://` for git clone.
+
+
+
