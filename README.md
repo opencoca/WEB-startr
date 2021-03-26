@@ -69,4 +69,8 @@ You can now begin using pyenv.
 If you need, `export USE_GIT_URI` to use `git://` instead of `https://` for git clone.
 
 
+# License
+Copyright 2019–2021 12787326 Canada Inc.
+
+Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
 
