@@ -1,12 +1,6 @@
 
 * I strongly recommend https://github.com/diogocavilha/fancy-git
 
-* Must setup Keybase bots starting with https://github.com/keybase/pykeybasebot
-* call Google Colab from the comand line!!! https://github.com/TensorTom/colabctl
-* should run https://github.com/toniov/gcalcron for experimenting with calendar controlled tasks.
-* Looking into CapRover for simpler Docker management https://caprover.com/docs/get-started.html
-* https://github.com/micahflee/passphraseme
-
 Ifs you're on the RIAC team:
 
 `git clone --recurse-submodules -j10 keybase://team/robotinacan/RobotInACan`
@@ -37,4 +31,10 @@ sudo apt-get install curl
 ```
 
 
+NOTES:
 
+* Must setup Keybase bots starting with https://github.com/keybase/pykeybasebot
+* call Google Colab from the comand line!!! https://github.com/TensorTom/colabctl
+* should run https://github.com/toniov/gcalcron for experimenting with calendar controlled tasks.
+* Looking into CapRover for simpler Docker management https://caprover.com/docs/get-started.html
+* https://github.com/micahflee/passphraseme
