@@ -34,8 +34,7 @@ Enter file in which to save the key (/home/username/.ssh/id_rsa):
 Created directory '/home/username/.ssh'.
 Enter passphrase (empty for no passphrase): 
 ```
-
-put no passphrase
+If you are not dealing with a high sercurity project and you trust your computer you can put no passphrase.
 
 ## find ssh after
 
