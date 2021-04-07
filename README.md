@@ -1,4 +1,4 @@
-# startr
+# Startr
 
 This project is part of a collection of projects and tools maintained by openco.
 
