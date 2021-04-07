@@ -58,7 +58,20 @@ Fork and Clone the folowing repos to your machine
 To clone a repo to directory of your choosing by using the following command
 `git clone git@github.com:username/project.git` (found by clicking dropdown on download)
 
+## Some Basic Git Commands
 
+'''cat .git/config
+git pull
+git status 
+git diff
+git add README.md 
+git status
+git commit
+git config --global user.email "yourname@something.com"
+git config --global user.name "YourName"
+git commit
+fg
+git push'''
 
 
 ## USE PYENV and PIPENV
