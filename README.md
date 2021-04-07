@@ -2,7 +2,7 @@
 
 This project is part of a collection of projects and tools maintained by openco.
 
-Development of these tools requires the use of git, a text editor (I recommend Visual Studio Code and when you are ready Vim).
+Development of these tools requires the use of git, a text editor (I recommend Code and when you are ready Vim).
 
 All steps work best in a Debian based Linux distribution such as Ubuntu or Elementary OS.
 
