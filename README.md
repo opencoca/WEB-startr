@@ -1,9 +1,9 @@
 # Startr
 v0.1.0
 
-This project is part of a collection of projects and tools maintained by openco.
+This project is part of a collection of projects and tools maintained by OpenCo.ca
 
-Development of these tools requires the use of git, a text editor (I recommend Code and when you are ready Vim).
+Development of these tools requires the use of git, a text editor (We recommend Code and when you are ready Vim).
 
 All steps work best in a Debian based Linux distribution such as Ubuntu or Elementary OS.
 
@@ -11,7 +11,8 @@ All steps work best in a Debian based Linux distribution such as Ubuntu or Eleme
 
 ## Setting up your Build Environment 
 
-You will need to have git and the following packages installed. Installing things in Debian based systems is quick with a package manager. Open your terminal and enter the following two commands:
+We recomend you have git and the following packages installed on in a Debian based Linux. 
+Installing things in Debian based systems is quick with a package manager. Open your terminal and enter the following two commands:
 
 `sudo apt-get update` #This updates your package manager's directory of programs
 
