@@ -173,7 +173,7 @@
                 <node ID="D269F1E0-442F-4E00-8050-6107D3FA1F31" TEXT="String()/toString()" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="C31106E2-93FB-4288-834A-916C268E3E63" TEXT="var a = 8; a.toString(2); // '1000'" FOLDED="false" COLOR="#063533">
+                    <node ID="C31106E2-93FB-4288-834A-916C268E3E63" TEXT="var a = 8;a.toString(2); // '1000'" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -181,11 +181,11 @@
                 <node ID="F2632328-4DB1-42E9-AFF4-38C3FAB7A8BF" TEXT="immutable" FOLDED="false" COLOR="#063533">
                     <font NAME="HelveticaNeue-Light" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="BAAD8A34-FD47-4ACA-A03E-C020320ACE74" TEXT="var a = 'ABC'; a[0]; 				// 'A' a[0] = 'D'; a; 					// 'ABC'" FOLDED="false" COLOR="#063533">
+                    <node ID="BAAD8A34-FD47-4ACA-A03E-C020320ACE74" TEXT="var a = 'ABC';a[0]; 				// 'A'a[0] = 'D';a; 					// 'ABC'" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
-                    <node ID="59AEF0DE-610A-4BE1-8EA6-6B32FAB8C854" TEXT="var a = 'abc'; a = a + 'd'; a; 					// 'abcd'" FOLDED="false" COLOR="#063533">
+                    <node ID="59AEF0DE-610A-4BE1-8EA6-6B32FAB8C854" TEXT="var a = 'abc';a = a + 'd';a; 					// 'abcd'" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -299,7 +299,7 @@
                 <node ID="684E3301-82A3-4EF4-972B-5A933DBAFDA3" TEXT="undefined != Not defined" FOLDED="false" COLOR="#063533">
                     <font NAME="HelveticaNeue-Light" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="74BC24B7-39E2-47AA-8573-D5230C473857" TEXT="undefined == undefined; 	// true var a; a == undefined; 				// true console.log(d); 				// Error" FOLDED="false" COLOR="#063533">
+                    <node ID="74BC24B7-39E2-47AA-8573-D5230C473857" TEXT="undefined == undefined; 	// truevar a;a == undefined; 				// trueconsole.log(d); 				// Error" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -319,11 +319,11 @@
                 <node ID="7FF0D814-6D7E-467C-800A-114057A0C4B5" TEXT="{}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="3F303CCE-7DF7-4211-9151-11A53322FA7C" TEXT="var p = {   name: 'Ad',   'age': 24 };" FOLDED="false" COLOR="#063533">
+                    <node ID="3F303CCE-7DF7-4211-9151-11A53322FA7C" TEXT="var p = {  name: 'Ad',  'age': 24};" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
-                    <node ID="80D71357-D846-4C5F-A142-EDC79FA49614" TEXT="var q = {}; q.name = 'Bob'; q.age  = 24;  console.log(q.name);				 // 'Bob' console.log(q['age']);				 // 24" FOLDED="false" COLOR="#063533">
+                    <node ID="80D71357-D846-4C5F-A142-EDC79FA49614" TEXT="var q = {};q.name = 'Bob';q.age  = 24;console.log(q.name);				 // 'Bob'console.log(q['age']);				 // 24" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -331,7 +331,7 @@
                 <node ID="67E27816-0CFC-4670-B8F1-7343CA38A2B7" TEXT="new Object()" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="3E58C682-2B26-4B7E-AD10-7B3F9146CB45" TEXT="var p   = new Object(); p.sayHi = function(){   console.log('Hi!'); } p.sayHi(); 					// 'Hi!'" FOLDED="false" COLOR="#063533">
+                    <node ID="3E58C682-2B26-4B7E-AD10-7B3F9146CB45" TEXT="var p   = new Object();p.sayHi = function(){  console.log('Hi!');}p.sayHi(); 					// 'Hi!'" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -380,15 +380,15 @@
                 <node ID="9B837A6B-57BE-4EE3-98AE-AFDA08264E34" TEXT="create" FOLDED="false" COLOR="#063533">
                     <font NAME="STHeitiSC-Light" SIZE="14"></font>
                     <edge COLOR="#94AC70"></edge>
-                    <node ID="A10E278E-EC9B-4B35-8CE6-2A7AF064C521" TEXT="var a = function(arg1, arg2){   //func body; }" FOLDED="false" COLOR="#063533">
+                    <node ID="A10E278E-EC9B-4B35-8CE6-2A7AF064C521" TEXT="var a = function(arg1, arg2){  //func body;}" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
-                    <node ID="C7FEC1C5-8868-4CB2-8E03-5A5F6116708D" TEXT="function a(arg1, arg2){   //func body; }" FOLDED="false" COLOR="#063533">
+                    <node ID="C7FEC1C5-8868-4CB2-8E03-5A5F6116708D" TEXT="function a(arg1, arg2){  //func body;}" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
-                    <node ID="FDD8E0C6-1C6F-4F68-A442-973E99B490C1" TEXT="(function(arg1,arg2){   //func body; })" FOLDED="false" COLOR="#063533">
+                    <node ID="FDD8E0C6-1C6F-4F68-A442-973E99B490C1" TEXT="(function(arg1,arg2){  //func body;})" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#94AC70"></edge>
                     </node>
@@ -402,7 +402,7 @@
                         <node ID="0DED8065-2FE9-46C1-900C-71FFE532ADEE" TEXT="// by order" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#94AC70"></edge>
-                            <node ID="C84F7640-FB4C-4842-A7D0-C15F7BF198AD" TEXT="var f = function(x, y){   console.log('x: ' + x + ', y: ' + y); }; var x = 'x', y = 'y'; f(x, y);					 // x: x, y: y f(y, x);					 // x: y, y: x" FOLDED="false" COLOR="#063533">
+                            <node ID="C84F7640-FB4C-4842-A7D0-C15F7BF198AD" TEXT="var f = function(x, y){  console.log('x: ' + x + ', y: ' + y);};var x = 'x', y = 'y';f(x, y);					 // x: x, y: yf(y, x);					 // x: y, y: x" FOLDED="false" COLOR="#063533">
                                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                                 <edge COLOR="#94AC70"></edge>
                             </node>
@@ -410,7 +410,7 @@
                         <node ID="65FD1072-88E8-43F3-88E2-89C11C0F6577" TEXT="undefined" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#94AC70"></edge>
-                            <node ID="0762347C-ABFA-40B7-9131-6C8EB8076D2B" TEXT="var f = function(x){   console.log(x); }; f();							// undefined" FOLDED="false" COLOR="#063533">
+                            <node ID="0762347C-ABFA-40B7-9131-6C8EB8076D2B" TEXT="var f = function(x){  console.log(x);};f();							// undefined" FOLDED="false" COLOR="#063533">
                                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                                 <edge COLOR="#94AC70"></edge>
                             </node>
@@ -418,7 +418,7 @@
                         <node ID="70AB502E-7FC3-4A68-806F-CADBC032043B" TEXT="arguments" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#94AC70"></edge>
-                            <node ID="01359C87-A9C3-4743-9461-7B81A4296239" TEXT="var f = function(){   console.log(arguments); }; f(3,2,1);						// { '0': 3, '1': 2, '2': 1 }" FOLDED="false" COLOR="#063533">
+                            <node ID="01359C87-A9C3-4743-9461-7B81A4296239" TEXT="var f = function(){  console.log(arguments);};f(3,2,1);						// { '0': 3, '1': 2, '2': 1 }" FOLDED="false" COLOR="#063533">
                                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                                 <edge COLOR="#94AC70"></edge>
                             </node>
@@ -701,7 +701,7 @@
                 <node ID="FBD37458-C969-4C1A-9151-93BC00F3D709" TEXT="as value (callback)" FOLDED="false" COLOR="#063533">
                     <font NAME="STHeitiSC-Light" SIZE="14"></font>
                     <edge COLOR="#182727"></edge>
-                    <node ID="87665A62-6F63-4511-A33A-CADA31720EBC" TEXT="var api = function(){   return {     name: 'rainy',     age: 24   }; }; var handler = function(d){   console.log('Name: '+d.name+', Age: '+d.age); }; var request = function(api, callback){   callback(api()); };  request(api, handler);	// Name: rainy, Age: 24" FOLDED="false" COLOR="#063533">
+                    <node ID="87665A62-6F63-4511-A33A-CADA31720EBC" TEXT="var api = function(){  return {    name: 'rainy',    age: 24  };};var handler = function(d){  console.log('Name: '+d.name+', Age: '+d.age);};var request = function(api, callback){  callback(api());};request(api, handler);	// Name: rainy, Age: 24" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
@@ -712,11 +712,11 @@
                     <node ID="E42FC857-5269-4B1B-B135-03311934D004" TEXT="apply/call/bind" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
-                        <node ID="967538EF-84C4-44C8-9CF0-2E18C0E4F852" TEXT="// func.apply(thisObj, [arg1, arg2, ...]); // func.call(thisObj, arg1, arg2, ...); // func.bind(thisObj, arg1, arg2, ...); // about thisObj, see `Scope`" FOLDED="false" COLOR="#063533">
+                        <node ID="967538EF-84C4-44C8-9CF0-2E18C0E4F852" TEXT="// func.apply(thisObj, [arg1, arg2, ...]);// func.call(thisObj, arg1, arg2, ...);// func.bind(thisObj, arg1, arg2, ...);// about thisObj, see `Scope`" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
-                        <node ID="B70C1CB4-20E6-4B9E-8DE3-82E34C2CF6BF" TEXT="var sayHi = function(name){   console.log('Hello, ' + name + '!'); }; sayHi.call(this, 'rainy');					// Hello, rainy! sayHi.apply(this, ['rainy']);				// Hello, rainy! sayHi.bind(this, 'rainy')();				// Hello, rainy!" FOLDED="false" COLOR="#063533">
+                        <node ID="B70C1CB4-20E6-4B9E-8DE3-82E34C2CF6BF" TEXT="var sayHi = function(name){  console.log('Hello, ' + name + '!');};sayHi.call(this, 'rainy');					// Hello, rainy!sayHi.apply(this, ['rainy']);				// Hello, rainy!sayHi.bind(this, 'rainy')();				// Hello, rainy!" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
@@ -785,7 +785,7 @@
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
-                        <node ID="5D2E6382-CEF2-40CA-827E-62C90163B42E" TEXT="var s = 'a,b,c,d'; s.split(','); // ['a', 'b', 'c', 'd']" FOLDED="false" COLOR="#063533">
+                        <node ID="5D2E6382-CEF2-40CA-827E-62C90163B42E" TEXT="var s = 'a,b,c,d';s.split(','); // ['a', 'b', 'c', 'd']" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
@@ -797,11 +797,11 @@
                     <node ID="1E47F8A4-2E02-4E3C-AD6A-D8BF417B7556" TEXT="map/reduce" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
-                        <node ID="11E7D14A-30DC-4B3A-B98A-DB2722AA0E2C" TEXT="// arr.map(callback, thisObj)  /* callback = function(element, index, arr){  *   return element to the same pos of (returned)arr;  * };  */  [55, 44, 33, 22, 11].map(function(e, i, arr){   return e/(arr.length-i); });								// [ 11, 11, 11, 11, 11 ];" FOLDED="false" COLOR="#063533">
+                        <node ID="11E7D14A-30DC-4B3A-B98A-DB2722AA0E2C" TEXT="// arr.map(callback, thisObj)/* callback = function(element, index, arr){ *   return element to the same pos of (returned)arr; * }; */[55, 44, 33, 22, 11].map(function(e, i, arr){  return e/(arr.length-i);});								// [ 11, 11, 11, 11, 11 ];" FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
-                        <node ID="37B92256-7F37-41DF-BC6E-843CF5F95312" TEXT="// arr.reduce(callback, init);  /* callback = function(prev, curr, index, arr){  *   curr walk through   *     arr.slice(init != undefined ? 0 : 1, arr.length);  *   prev cache last returned value start with:   *     (init != undefined ? init : arr[0]);  * };  */  [55, 44, 33, 22, 11].reduce(function(p, c, i, arr){   return p + c/(arr. length-i); }, 55);						// 0; " FOLDED="false" COLOR="#063533">
+                        <node ID="37B92256-7F37-41DF-BC6E-843CF5F95312" TEXT="// arr.reduce(callback, init);/* callback = function(prev, curr, index, arr){ *   curr walk through  *     arr.slice(init != undefined ? 0 : 1, arr.length); *   prev cache last returned value start with:  *     (init != undefined ? init : arr[0]); * }; */[55, 44, 33, 22, 11].reduce(function(p, c, i, arr){  return p + c/(arr. length-i);}, 55);						// 0; " FOLDED="false" COLOR="#063533">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
@@ -824,11 +824,11 @@
                 <node ID="B6AEA384-DEF6-4D00-923B-945DBEDCB037" TEXT="iteration" FOLDED="false" COLOR="#063533">
                     <font NAME="STHeitiSC-Light" SIZE="14"></font>
                     <edge COLOR="#182727"></edge>
-                    <node ID="AB859C00-0D28-4894-8019-63D916E6AB36" TEXT="for(var i = 0; i &lt; a.length; i++){   console.log(a[i]); }" FOLDED="false" COLOR="#063533">
+                    <node ID="AB859C00-0D28-4894-8019-63D916E6AB36" TEXT="for(var i = 0; i &lt; a.length; i++){  console.log(a[i]);}" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
-                    <node ID="6A0442B4-9034-420C-A2CE-A5CE816BED4E" TEXT="a.forEach(function(ele){   console.log(ele); });" FOLDED="false" COLOR="#063533">
+                    <node ID="6A0442B4-9034-420C-A2CE-A5CE816BED4E" TEXT="a.forEach(function(ele){  console.log(ele);});" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
@@ -844,7 +844,7 @@
                 <node ID="ECE60935-A4A1-45B1-8E1C-F41C8CCCFD9E" TEXT="Constructor" FOLDED="false" COLOR="#191919">
                     <font NAME="HelveticaNeue-Light" SIZE="14"></font>
                     <edge COLOR="#182727"></edge>
-                    <node ID="74DCD750-7E45-487F-9741-A397A0C51632" TEXT="function Person(name){   this.name = name;   this.sayHi= function(){     console.log('Hi ' + this.name + '!');   }; };  var p1 = new Person('Ad'); var p2 = new Person('Bob');  p1.name							// 'Ad' p2.sayHi();						// 'Hi Bob!'  p1.constructor === Person		// true p1 instanceof Person			// true p1.sayHi == p2.sayHi			// false" FOLDED="false" COLOR="#063533">
+                    <node ID="74DCD750-7E45-487F-9741-A397A0C51632" TEXT="function Person(name){  this.name = name;  this.sayHi= function(){    console.log('Hi ' + this.name + '!');  };};var p1 = new Person('Ad');var p2 = new Person('Bob');p1.name							// 'Ad'p2.sayHi();						// 'Hi Bob!'p1.constructor === Person		// truep1 instanceof Person			// truep1.sayHi == p2.sayHi			// false" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
@@ -852,7 +852,7 @@
                 <node ID="ED133DE8-B0BF-4CBC-84F1-5BD3AE877B84" TEXT="prototype chain" FOLDED="false" COLOR="#008000">
                     <font NAME="HelveticaNeue-Bold" SIZE="14"></font>
                     <edge COLOR="#182727"></edge>
-                    <node ID="47801C8B-930D-467E-9619-183A4BDE0CF2" TEXT="function Person(){}; Person.prototype.name = 'Person';  var p1  = new Person(); var p2  = new Person(); p2.name = 'rainy';  console.log(p1.name);					// 'Person' console.log(p2.name);					// 'rainy'" FOLDED="false" COLOR="#063533">
+                    <node ID="47801C8B-930D-467E-9619-183A4BDE0CF2" TEXT="function Person(){};Person.prototype.name = 'Person';var p1  = new Person();var p2  = new Person();p2.name = 'rainy';console.log(p1.name);					// 'Person'console.log(p2.name);					// 'rainy'" FOLDED="false" COLOR="#063533">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                         <node ID="18E9F23A-5BD8-4173-A03B-E25DED1FD4CE" TEXT="Person" FOLDED="false" COLOR="#063533">
@@ -902,11 +902,11 @@
                             </node>
                         </node>
                     </node>
-                    <node ID="63072CD7-5D7A-4D93-9EAF-C159B5555DF4" TEXT="p1 instanceof Person						// true p1.age = 24;  p1.hasOwnProperty('name');				// false Person.hasOwnProperty('name');		// true  p1.hasOwnProperty('age');				// true 'name' in p1								// true 'age' in Person							// false" FOLDED="false" COLOR="#073534">
+                    <node ID="63072CD7-5D7A-4D93-9EAF-C159B5555DF4" TEXT="p1 instanceof Person						// truep1.age = 24;p1.hasOwnProperty('name');				// falsePerson.hasOwnProperty('name');		// truep1.hasOwnProperty('age');				// true'name' in p1								// true'age' in Person							// false" FOLDED="false" COLOR="#073534">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
-                    <node ID="82F36292-6E79-4889-94A7-9ADC69677DEE" TEXT="// All properties on the prototype are shared among instances Person.prototype.friends = ['Ad', 'Bob'];  p1.friends.pop();						// 'Bob' console.log(p2.friends);				// ['Ad']  // Combine constructor &amp; prototype function Person(){   this.friends = ['Ad', 'Bob']; }; Person.prototype.name = 'Person';	" FOLDED="false" COLOR="#FF0000">
+                    <node ID="82F36292-6E79-4889-94A7-9ADC69677DEE" TEXT="// All properties on the prototype are shared among instancesPerson.prototype.friends = ['Ad', 'Bob'];p1.friends.pop();						// 'Bob'console.log(p2.friends);				// ['Ad']// Combine constructor &amp; prototypefunction Person(){  this.friends = ['Ad', 'Bob'];};Person.prototype.name = 'Person';	" FOLDED="false" COLOR="#FF0000">
                         <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
                     </node>
@@ -917,7 +917,7 @@
                     <node ID="A4D268C1-91F5-41E0-B4D5-CF35094BC93B" TEXT="prototype chain" FOLDED="false" COLOR="#000000">
                         <font NAME="STHeitiSC-Light" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
-                        <node ID="16FE6199-AAEF-406D-B479-809A27E4394D" TEXT="function Father(){}; Father.prototype.familyName = 'Good';  function Child(){}; Child.prototype = new Father();  var c = new Child(); console.log(c.familyName);				// 'Good'" FOLDED="false" COLOR="#000000">
+                        <node ID="16FE6199-AAEF-406D-B479-809A27E4394D" TEXT="function Father(){};Father.prototype.familyName = 'Good';function Child(){};Child.prototype = new Father();var c = new Child();console.log(c.familyName);				// 'Good'" FOLDED="false" COLOR="#000000">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
@@ -926,7 +926,7 @@
                     <node ID="3F8EB569-C9E4-4B56-B1A2-F8DEB5A704FC" TEXT="constructor" FOLDED="false" COLOR="#000000">
                         <font NAME="STHeitiSC-Light" SIZE="14"></font>
                         <edge COLOR="#182727"></edge>
-                        <node ID="4A845271-854B-4D19-AE09-D3AEAC9FCEA8" TEXT="function Father(){   this.familyName = 'Good'; };  function Child(){   Father.call(this); };  var c = new Child(); console.log(c.familyName);					// 'Good'" FOLDED="false" COLOR="#000000">
+                        <node ID="4A845271-854B-4D19-AE09-D3AEAC9FCEA8" TEXT="function Father(){  this.familyName = 'Good';};function Child(){  Father.call(this);};var c = new Child();console.log(c.familyName);					// 'Good'" FOLDED="false" COLOR="#000000">
                             <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                             <edge COLOR="#182727"></edge>
                         </node>
@@ -941,7 +941,7 @@
             <node ID="533DEE43-AB3B-4EF9-9A61-A9B498A52715" TEXT="if" FOLDED="false" COLOR="#063533">
                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                 <edge COLOR="#527851"></edge>
-                <node ID="09ED6AC2-4132-47AD-AE3A-4F759305A20F" TEXT="if(cond){   state1; }else if(cond2){   state2; }else{   state3; }" FOLDED="false" COLOR="#063533">
+                <node ID="09ED6AC2-4132-47AD-AE3A-4F759305A20F" TEXT="if(cond){  state1;}else if(cond2){  state2;}else{  state3;}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
@@ -953,7 +953,7 @@
             <node ID="C44D062E-3C7B-4AE6-98DB-15E2EAD0B9FD" TEXT="switch" FOLDED="false" COLOR="#063533">
                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                 <edge COLOR="#527851"></edge>
-                <node ID="51EE49D0-D992-487A-BD49-B09912245842" TEXT="switch (day) {   case MON:     break;   case TUE:     break;   case WEN:     break;   default: }" FOLDED="false" COLOR="#063533">
+                <node ID="51EE49D0-D992-487A-BD49-B09912245842" TEXT="switch (day) {  case MON:    break;  case TUE:    break;  case WEN:    break;  default:}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
@@ -962,11 +962,11 @@
             <node ID="802D0044-71C1-4246-8606-B7284B909E48" TEXT="while" FOLDED="false" COLOR="#063533">
                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                 <edge COLOR="#527851"></edge>
-                <node ID="D1103578-53BF-4B08-8D54-BEC6E5C85950" TEXT="do {   state1; } while(cond)" FOLDED="false" COLOR="#063533">
+                <node ID="D1103578-53BF-4B08-8D54-BEC6E5C85950" TEXT="do {  state1;} while(cond)" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
-                <node ID="8E6D51A7-CFF6-4012-8174-E9AE8C534417" TEXT="while(cond){   state1; }" FOLDED="false" COLOR="#063533">
+                <node ID="8E6D51A7-CFF6-4012-8174-E9AE8C534417" TEXT="while(cond){  state1;}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
@@ -978,11 +978,11 @@
             <node ID="7F88EF80-8AC7-4467-AF3B-95A9F84AB0C6" TEXT="for" FOLDED="false" COLOR="#063533">
                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                 <edge COLOR="#527851"></edge>
-                <node ID="93798FD5-1521-4062-A721-769F852C6C13" TEXT="for(var i = 0; i &lt; len; i++){   state1; }" FOLDED="false" COLOR="#063533">
+                <node ID="93798FD5-1521-4062-A721-769F852C6C13" TEXT="for(var i = 0; i &lt; len; i++){  state1;}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
-                <node ID="0738F9FA-D34E-4446-B7A8-06C52B7475AC" TEXT="for(var k in Obj){   // if Obj.hasOwnProperty(k){     console.log('Obj[' + k + '] = ' + Obj[k]);   // } }" FOLDED="false" COLOR="#063533">
+                <node ID="0738F9FA-D34E-4446-B7A8-06C52B7475AC" TEXT="for(var k in Obj){  // if Obj.hasOwnProperty(k){    console.log('Obj[' + k + '] = ' + Obj[k]);  // }}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
@@ -991,7 +991,7 @@
             <node ID="DDE2CD91-6961-46A7-A647-48773C63FA46" TEXT="try/catch/finally" FOLDED="false" COLOR="#063533">
                 <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                 <edge COLOR="#527851"></edge>
-                <node ID="BD41E587-76C2-4C1F-A5E0-7342BC7C249B" TEXT="var a = {}; try{   a.f(); }catch(e){   console.log(e instanceof TypeError);    // true   (function(){ 		console.log('a.f()');				  // 'a.f()'    })(); }finally{   console.log('always');					  // 'always' }" FOLDED="false" COLOR="#063533">
+                <node ID="BD41E587-76C2-4C1F-A5E0-7342BC7C249B" TEXT="var a = {};try{  a.f();}catch(e){  console.log(e instanceof TypeError);    // true  (function(){		console.log('a.f()');				  // 'a.f()'   })();}finally{  console.log('always');					  // 'always'}" FOLDED="false" COLOR="#063533">
                     <font NAME="CourierNewPS-BoldMT" SIZE="14"></font>
                     <edge COLOR="#527851"></edge>
                 </node>
