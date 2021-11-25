@@ -1,5 +1,5 @@
 # Startr
-v0.1.0
+v0.2.0
 
 This project is part of a collection of projects and tools maintained by OpenCo.ca
 
