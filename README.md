@@ -1,11 +1,13 @@
 # Startr
-v0.2.0
+v0.2.0.1
 
 This project is part of a collection of projects and tools maintained by OpenCo.ca
 
 Development of these tools requires the use of git, a text editor (We recommend Code and when you are ready Vim).
 
 All steps work best in a Debian based Linux distribution such as Ubuntu or Elementary OS.
+
+All steps should also work on macOS.
 
 
 
@@ -36,7 +38,7 @@ Enter passphrase (empty for no passphrase):
 
 If you are not dealing with a high sercurity project and you trust your computer you can put no passphrase.
 
-## find your public ssh key 
+## Find your public ssh key 
 
 To show your ssh key use command  `cat /home/username/.ssh/id_rsa.pub`
 
