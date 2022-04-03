@@ -4,7 +4,8 @@ v0.2.0.1
 
 This project is part of a collection of projects and tools maintained by OpenCo.ca
 
-Development of these tools requires the use of git, a text editor (We recommend Code and when you are ready Vim).
+Development of these tools requires the use of git and text editor.
+We recommend Code and when you are ready Vim.
 
 All steps work best in a Debian based Linux distribution such as Ubuntu or Elementary OS.
 
