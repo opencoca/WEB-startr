@@ -1,4 +1,5 @@
 # Startr
+
 v0.2.0.1
 
 This project is part of a collection of projects and tools maintained by OpenCo.ca
@@ -9,9 +10,7 @@ All steps work best in a Debian based Linux distribution such as Ubuntu or Eleme
 
 All steps should also work on macOS.
 
-
-
-## Setting up your Build Environment 
+## Setting up your Build Environment
 
 We recomend you have git and the following packages installed on in a Debian based Linux. 
 Installing things in Debian based systems is quick with a package manager. Open your terminal and enter the following two commands:
@@ -22,13 +21,11 @@ Installing things in Debian based systems is quick with a package manager. Open 
 
 > Note: the command `sudo` allows you to run a command as the `root` or Admin user. On linux systems the root user is a special user account used for system administration. The name root may have originated because root is the only user account with permission to modify the root directory of a Unix system. This directory was originally considered to be root's home directory, but the UNIX Filesystem Hierarchy Standard now recommends that root's home be at /root.
 
-
-
-## Create your ssh key:
+### Create your ssh key
 
 It's simpler to work with repos if you have your ssh key setup. 
 
-```
+```bash
 username@username-computername:~$ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/username/.ssh/id_rsa):                     
@@ -38,9 +35,11 @@ Enter passphrase (empty for no passphrase):
 
 If you are not dealing with a high sercurity project and you trust your computer you can put no passphrase.
 
-## Find your public ssh key 
+### Find and use your public ssh key
 
-To show your ssh key use command  `cat /home/username/.ssh/id_rsa.pub`
+To show your ssh key use command  `cat /home/username/.ssh/id_rsa.pub` 
+
+Your ssh key can be used to securly connect to servers and services. To use your ssh key with Github follow the always up to date [Github SSH Guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ## Keep your projects clean
 
@@ -52,41 +51,46 @@ I recomend ~/Documents/Projects
 
 Fork and Clone the folowing repos to your machine
 
+* https://github.com/opencoca/startr
+* https://github.com/opencoca/simpleweb
 * https://github.com/opencoca/lt2d_school
 * https://github.com/opencoca/lt2d_school_admin
-* https://github.com/opencoca/simpleweb
-* https://github.com/opencoca/startr
+
 
 > Note: our team uses master repos with submodules. If work on many projects with our team ask your supervisor if you're eligable for access to parent repos
 
-To clone a repo to directory of your choosing by using the following command
-`git clone git@github.com:username/project.git` (found by clicking dropdown on download)
+To clone a repo to directory of your choosing open up your terminal, cd (or pushd) to the directory of your choosing and run :
+`git clone https://github.com/opencoca/startr`
+`git clone git@github.com:username/project.git` 
 
-## Some Basic Git Commands
 
-'''cat .git/config
-git pull
-git status 
-git diff
-git add README.md 
-git status
-git commit
+(found by clicking dropdown on download)
+
+## Make sure that you're aware of what the following git commands do
+
+```bash
 git config --global user.email "yourname@something.com"
 git config --global user.name "YourName"
+
+git pull
+git status
+git diff
+git add README.md
+git status
 git commit
-fg
-git push'''
+git push
+```
 
-
-## USE PYENV and PIPENV
+## Use Pyenv and Pipenv
 
 Pyenv lets you easily switch between multiple versions of Python. It's simple, unobtrusive, and follows the UNIX tradition of single-purpose tools that do one thing well. **Pipenv** is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. Pipenv and Pyenv work well together allowing you to work on projects that  have differing needs.
 
 https://github.com/pyenv/pyenv-installer
 
-### Pyenv Install:
+### Pyenv Install
 
-```source-shell
+```bash
+source-shell
 $ curl https://pyenv.run | bash
 ```
 
@@ -96,26 +100,23 @@ $ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installe
 
 Restart your shell so the path changes take effect:
 
-```
+```bash
 source-shell
 $ exec $SHELL
 ```
 
 You can now begin using pyenv.
 
-> If you need, `export USE_GIT_URI` to use `git://` instead of `https://` for git clone.
+### Pipenv Install
 
-### Pipenv Install:
-
-Pipenv is primarily meant to provide users and developers of applications with an easy method to setup a working environment. 
+Pipenv is primarily meant to provide users and developers of applications with an easy method to setup a working environment.
 
 Install pipenv using python's pip
 
 `pip install --user pipenv`
 
+## License
 
-
-# License
 Copyright 2019–2021 12787326 Canada Inc.
 
 Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
