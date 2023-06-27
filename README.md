@@ -118,6 +118,6 @@ Install pipenv using python's pip
 
 ## License
 
-Copyright 2019–2021 12787326 Canada Inc.
+Copyright 2019–2023 12787326 Canada Inc.
 
 Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
