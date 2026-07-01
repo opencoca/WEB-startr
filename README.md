@@ -4,7 +4,7 @@ v0.4.1
 
 A static site built with [Eleventy](https://www.11ty.dev/) and served via nginx. Part of the [Startr.Cloud](https://startr.cloud) project family, maintained by OpenCo.ca.
 
-## Quick Start
+## Quick start
 
 ```bash
 # Local development (via Startr.sh)

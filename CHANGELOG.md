@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [0.4.1] - 2026-07-01
 
 ### Added
+
 - Makefile with git-flow-next release/hotfix targets
 - Dockerfile (Node 20 build stage, nginx:alpine serve stage)
 - CapRover `captain-definition`
@@ -16,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ## [0.4.0] - 2024-12-01
 
 ### Changed
+
 - Smoother audio crossfade transitions
 - CSS cursor fallback fix
 - Code structure cleanup
@@ -27,6 +29,7 @@ All notable changes to this project will be documented in this file.
 ## [0.2.0] - 2021-11-23
 
 ### Added
+
 - Initial release with Eleventy-based static site
 - Lesson sheets, lockbox pages, Sierra Leone certifications
 - SSH and git setup documentation
