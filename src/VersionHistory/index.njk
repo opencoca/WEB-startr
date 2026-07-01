@@ -1,0 +1,639 @@
+---
+layout: default
+title: "Startr — Version History"
+description: "The Startr version history poster. Click it to glitch between revisions."
+---
+
+{#
+  Version History — a vertically + horizontally centered poster that swaps
+  between two revisions on click, through a digital-error / RGB-split glitch
+  with a synthesized Web Audio burst.
+
+  Authoring notes (startr.style is first-party; CSS only where inline props
+  can't reach — per house convention):
+    - Layout, sizing, centering, cursor  → inline --props on the markup.
+    - Keyframes, mix-blend-mode, clip-path bands, SVG-filter noise → the
+      page-scoped `<style> @scope {}` block below. These have no inline
+      custom-property form, so they live in scoped CSS, not global CSS.
+  The poster <img> carries --d: block from the outset so we don't rediscover
+  the inline-image baseline-descender gap (see WEB-Startr.Style TODO).
+#}
+
+<div id="wrapper">
+  <div id="main">
+    <div class="inner">
+
+      <section
+        style="--d: flex; --w: 100%; --minh: 100vh; --ai: center; --jc: center; --p: 1.5rem 1rem"
+      >
+        {# ── The poster stage. Height-constrained so the full 0.558:1 portrait
+             is always visible; width follows. Click target = the whole stage. ── #}
+        <figure
+          id="poster"
+          class="poster"
+          role="button"
+          tabindex="0"
+          aria-label="Startr version history poster. Activate to glitch to the next revision."
+          style="--d: block; --m: 0; --pos: relative; --cur: help; --w: auto; --maxw: 100%; --maxh: 90vh; --radius: 6px; --of: hidden"
+        >
+          {# Base (real, in-flow) image — the currently-shown revision. #}
+          <img
+            id="poster-base"
+            src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg"
+            alt="Startr version history"
+            style="--d: block; --w: auto; --maxw: 100%; --maxh: 90vh; --radius: 6px"
+          />
+
+          {# CMYK plate copies, stacked over the base, hidden until a glitch
+             fires. Cyan + magenta are the strong plates; yellow is bled out
+             (a faint ghost) — sun-faded-print / cyberpunk duotone. They pull
+             apart like misregistered print plates, not RGB chromatic split. #}
+          <img class="plate plate-c" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+          <img class="plate plate-m" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+          <img class="plate plate-y" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+
+          {# Digital slice-tear layers — copies of the poster that jump in
+             hard horizontal bands during the glitch (datamosh / signal-drop).
+             This is the aggressive digital-corruption energy layered OVER the
+             CMYK plate misregistration, so the tear is both print AND broken. #}
+          <img class="slice slice-1" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+          <img class="slice slice-2" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+          <img class="slice slice-3" aria-hidden="true" alt="" src="imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg" />
+
+          {# Analog-noise + scanline overlay, opacity-pulsed during the glitch. #}
+          <span class="noise" aria-hidden="true"></span>
+
+          {# Fading affordance — tells first-time visitors it's interactive. #}
+          <figcaption class="hint" aria-hidden="true">click to glitch</figcaption>
+
+          {# Mute toggle for the standing soundscape beds. Hidden until the
+             first click unlocks audio; then it silences/restores the drone.
+             stopPropagation so toggling mute doesn't also trigger a glitch. #}
+          <button
+            id="poster-mute"
+            class="mute"
+            style="--p:"
+            type="button"
+            hidden
+            aria-pressed="false"
+            aria-label="Mute soundscape"
+            title="Mute soundscape"
+          >
+            <span class="mute-on" aria-hidden="true">♪</span>
+            <span class="mute-off" aria-hidden="true">✕</span>
+          </button>
+        </figure>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+{# SVG filter for the analog noise overlay (feTurbulence). Zero-size, offscreen —
+   referenced by the .noise layer's background/filter. #}
+<svg width="0" height="0" style="--pos: absolute" aria-hidden="true" focusable="false">
+  <filter id="vh-noise">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n" />
+    <feColorMatrix in="n" type="saturate" values="0" />
+  </filter>
+</svg>
+
+<style>
+  /* Page-scoped: none of the following (keyframes, blend modes, clip-path
+     bands, filter refs) has an inline custom-property equivalent, so it lives
+     here rather than inline or in global CSS. @scope keeps it from leaking. */
+  @scope (#poster) {
+    :scope {
+      /* Disable the browser's tap-highlight / focus ring flash on the poster;
+         we render our own affordance. Keyboard focus still visible via outline
+         below for a11y. */
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    :scope:focus-visible {
+      outline: 2px solid #ff85ce;
+      outline-offset: 4px;
+    }
+
+    /* The CMYK plate copies sit exactly over the base image. */
+    .plate {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 6px;
+      opacity: 0;               /* invisible until a glitch fires */
+      pointer-events: none;
+      mix-blend-mode: multiply;  /* subtractive — the way ink plates actually combine */
+      will-change: transform, opacity, clip-path;
+    }
+    /* Tint each copy to a single process plate. `multiply` blending stacks
+       them subtractively, so aligned = the print, pulled apart = misregistered
+       plates. Cyan + magenta are the strong inks; yellow is bled out (handled
+       via low keyframe opacity below) — the sun-faded / cyberpunk duotone. */
+    .plate-c { filter: brightness(1.1) sepia(1) saturate(7) hue-rotate(140deg); }  /* cyan */
+    .plate-m { filter: brightness(1.1) sepia(1) saturate(8) hue-rotate(280deg); }  /* magenta */
+    .plate-y { filter: brightness(1.15) sepia(1) saturate(6) hue-rotate(5deg); }   /* yellow (ghost) */
+
+    /* Digital slice-tear layers — full poster copies clipped to a horizontal
+       band that jerks sideways in hard steps. Contrast/hue-shifted so the torn
+       bands read as corrupted signal, not just a shifted copy. */
+    .slice {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 6px;
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, clip-path, opacity;
+    }
+    .slice-1 { filter: contrast(1.5) saturate(1.4) hue-rotate(8deg); }
+    .slice-2 { filter: contrast(1.7) saturate(0.6) hue-rotate(-12deg); mix-blend-mode: screen; }
+    .slice-3 { filter: contrast(1.3) brightness(1.2) invert(0.08); }
+
+    /* ── Mute toggle for the standing soundscape beds. ──
+       Revealed by JS once audio unlocks; ♪ when playing, ✕ when muted. */
+    .mute {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.4em;
+      height: 2.4em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 400 1.1rem/1 'Source Sans Pro', sans-serif;
+      color: #fff;
+      background: rgba(23, 26, 61, 0.55);
+      border: 1px solid #ff85ce;
+      border-radius: 100%;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      opacity: 0.55;
+      transition: opacity 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .mute:hover,
+    .mute:focus-visible { opacity: 1; border-color: #5e95ff; color: #5e95ff; outline: none; }
+    .mute .mute-off { display: none; }
+    .mute[aria-pressed="true"] .mute-on  { display: none; }
+    .mute[aria-pressed="true"] .mute-off { display: inline; }
+    .mute[aria-pressed="true"] { color: rgba(255, 255, 255, 0.55); }
+
+    /* Signal-hash + scanlines overlay. `screen` blend + LIGHT scanlines so the
+       overlay only ever ADDS brightness — the glitch never darkens the poster. */
+    .noise {
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      opacity: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;   /* screen never darkens; only lightens */
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.22) 0px,
+          rgba(255, 255, 255, 0.22) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      filter: url(#vh-noise) brightness(1.6);
+      will-change: opacity;
+    }
+
+    /* Click affordance — floats bottom-centre, fades on its own after load,
+       and hides entirely during a glitch. */
+    .hint {
+      position: absolute;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      padding: 0.35em 0.9em;
+      font: 600 0.85rem/1 'Source Sans Pro', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(23, 26, 61, 0.55);
+      border: 1px solid #ff85ce;
+      border-radius: 2rem;
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+      animation: vh-hint-fade 4.5s ease forwards;
+    }
+
+    /* ── The glitch, driven by a `.glitching` class toggled in JS. ──
+       Timeline (~460ms): the CMYK plates slide apart like a misregistered
+       print run — cleaner horizontal offsets than the old digital-slice tear,
+       so it reads as shifted plates. Yellow stays faint (bled out). The image
+       swap happens under peak noise at ~50%. */
+    :scope.glitching .plate   { animation: vh-plate-c 460ms cubic-bezier(.5,0,.1,1) both; }
+    :scope.glitching .plate-c { animation-name: vh-plate-c; }
+    :scope.glitching .plate-m { animation-name: vh-plate-m; }
+    :scope.glitching .plate-y { animation-name: vh-plate-y; }
+    /* Digital slices jump in fast hard steps — different band + direction each,
+       shorter than the plate move so they read as violent, stuttering tears. */
+    :scope.glitching .slice-1 { animation: vh-slice-1 300ms steps(4, jump-both) both; }
+    :scope.glitching .slice-2 { animation: vh-slice-2 380ms steps(6, jump-both) both; }
+    :scope.glitching .slice-3 { animation: vh-slice-3 240ms steps(3, jump-both) both; }
+    :scope.glitching .noise  { animation: vh-noise-pulse 460ms steps(3, end) both; }
+    :scope.glitching #poster-base { animation: vh-base-jitter 460ms steps(2, end) both; }
+    :scope.glitching .hint   { opacity: 0; }
+  }
+
+  /* Keyframes must live at top level (not inside @scope) to be referable.
+     Named vh-* to avoid collisions with anything the framework ships. */
+  @keyframes vh-hint-fade {
+    0%, 65% { opacity: 0.92; }
+    100%    { opacity: 0; }
+  }
+  @keyframes vh-noise-pulse {
+    0%   { opacity: 0; }
+    20%  { opacity: 0.4; }
+    50%  { opacity: 0.55; }
+    80%  { opacity: 0.28; }
+    100% { opacity: 0; }
+  }
+  @keyframes vh-base-jitter {
+    0%, 100% { transform: translate(0, 0); filter: none; }
+    25%      { transform: translate(-3px, 1px); filter: contrast(1.25) saturate(1.4); }
+    50%      { transform: translate(3px, -2px); filter: contrast(1.35) saturate(0.85); }
+    75%      { transform: translate(-1px, 1px); filter: contrast(1.15); }
+  }
+  /* Cyan plate: strong. Slides left as a clean plate, drifts right, registers.
+     Mostly horizontal offset (print misregistration is a lateral shift), only
+     a gentle vertical band so it doesn't read as digital slicing. */
+  @keyframes vh-plate-c {
+    0%   { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+    15%  { opacity: 0.85; transform: translate(-13px, 1px); clip-path: inset(0 0 0 0); }
+    45%  { opacity: 0.9; transform: translate(-18px, -2px); clip-path: inset(8% 0 6% 0); }
+    70%  { opacity: 0.85; transform: translate(7px, 1px); clip-path: inset(0 0 0 0); }
+    88%  { opacity: 0.55; transform: translate(-2px, 0); clip-path: inset(0 0 0 0); }
+    100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  }
+  /* Magenta plate: strong, leans opposite the cyan — the two-colour spread. */
+  @keyframes vh-plate-m {
+    0%   { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+    15%  { opacity: 0.85; transform: translate(12px, -1px); clip-path: inset(0 0 0 0); }
+    45%  { opacity: 0.9; transform: translate(17px, 2px); clip-path: inset(5% 0 9% 0); }
+    70%  { opacity: 0.85; transform: translate(-8px, -1px); clip-path: inset(0 0 0 0); }
+    88%  { opacity: 0.55; transform: translate(2px, 0); clip-path: inset(0 0 0 0); }
+    100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+  }
+  /* Yellow plate: BLED OUT. Same misregistration motion but a faint ghost —
+     max ~0.3 opacity — the sun-faded / cyberpunk "dropped yellow" look. */
+  @keyframes vh-plate-y {
+    0%   { opacity: 0; transform: translate(0, 0); }
+    15%  { opacity: 0.22; transform: translate(5px, 3px); }
+    45%  { opacity: 0.3; transform: translate(-9px, 4px); }
+    70%  { opacity: 0.22; transform: translate(6px, -2px); }
+    88%  { opacity: 0.12; transform: translate(-1px, 0); }
+    100% { opacity: 0; transform: translate(0, 0); }
+  }
+
+  /* ── Digital slice-tears: a narrow band of the poster wrenched sideways,
+     the band position and offset jumping hard between keyframes (steps()
+     makes each a snap, not a slide). Big lateral shoves = datamosh tear. ── */
+  @keyframes vh-slice-1 {
+    0%   { opacity: 0; transform: translate(0, 0); clip-path: inset(18% 0 62% 0); }
+    20%  { opacity: 1; transform: translate(-40px, 0); clip-path: inset(12% 0 70% 0); }
+    45%  { opacity: 1; transform: translate(55px, 0); clip-path: inset(40% 0 44% 0); }
+    70%  { opacity: 1; transform: translate(-28px, 0); clip-path: inset(6% 0 82% 0); }
+    100% { opacity: 0; transform: translate(0, 0); clip-path: inset(18% 0 62% 0); }
+  }
+  @keyframes vh-slice-2 {
+    0%   { opacity: 0; transform: translate(0, 0); clip-path: inset(55% 0 30% 0); }
+    18%  { opacity: 1; transform: translate(48px, 0); clip-path: inset(60% 0 26% 0); }
+    40%  { opacity: 1; transform: translate(-62px, 0); clip-path: inset(48% 0 40% 0); }
+    64%  { opacity: 1; transform: translate(34px, 0); clip-path: inset(72% 0 14% 0); }
+    88%  { opacity: 1; transform: translate(-20px, 0); clip-path: inset(52% 0 36% 0); }
+    100% { opacity: 0; transform: translate(0, 0); clip-path: inset(55% 0 30% 0); }
+  }
+  @keyframes vh-slice-3 {
+    0%   { opacity: 0; transform: translate(0, 0); clip-path: inset(78% 0 8% 0); }
+    30%  { opacity: 1; transform: translate(-52px, 0); clip-path: inset(84% 0 4% 0); }
+    60%  { opacity: 1; transform: translate(44px, 0); clip-path: inset(2% 0 92% 0); }
+    100% { opacity: 0; transform: translate(0, 0); clip-path: inset(78% 0 8% 0); }
+  }
+
+  /* Respect reduced-motion: no glitch animation, just a hard cut on swap. */
+  @media (prefers-reduced-motion: reduce) {
+    #poster.glitching .plate,
+    #poster.glitching .slice,
+    #poster.glitching .noise,
+    #poster.glitching #poster-base { animation: none !important; }
+    #poster .plate, #poster .slice, #poster .noise { display: none; }
+  }
+</style>
+
+<script>
+  (function () {
+    var poster = document.getElementById('poster');
+    if (!poster) return;
+
+    var base = document.getElementById('poster-base');
+    var muteBtn = document.getElementById('poster-mute');
+    // Every overlay copy (CMYK plates + digital slices) mirrors the outgoing
+    // frame during a glitch, so the tear shows the frame we're leaving.
+    var overlays = poster.querySelectorAll('.plate, .slice');
+
+    // The two revisions to cycle through. Order matters: [current, next, …].
+    // Each revision carries its own SOUNDSCAPE — a dark ambient bed that plays
+    // continuously while that poster is shown. v1 = water (she's at the sea),
+    // v2 = city (he's near the town). The click TEARS one bed into the other.
+    var REVS = [
+      { src: 'imgs/Version_History_v1_upscayl_2x_ultramix-balanced-4x.jpeg', bed: 'ocean' },
+      { src: 'imgs/Version_History_v2_upscayl_2x_remacri-4x.jpeg', bed: 'city' }
+    ];
+    var idx = 0;
+    var busy = false;              // ignore clicks mid-glitch
+    var DURATION = 460;            // must match the CSS animation length
+    var SWAP_AT = DURATION * 0.5;  // swap the image under peak noise
+    var muted = false;
+
+    // ── Web Audio ──────────────────────────────────────────────────────────
+    // Lazily created on first gesture. Holds a master bus, the two standing
+    // soundscape beds, and fires the tear-smear on each glitch.
+    var actx = null, master = null;
+    function audio() {
+      if (!actx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        actx = new AC();
+        master = actx.createGain();
+        master.gain.value = muted ? 0 : 1;
+        master.connect(actx.destination);
+      }
+      if (actx.state === 'suspended') actx.resume();
+      return actx;
+    }
+
+    // A reusable looping noise buffer (2s), shaped per-bed by filters. One
+    // buffer, filtered two different ways, is far smaller than shipping audio.
+    var noiseBuf = null;
+    function loopNoise(ctx) {
+      if (noiseBuf) return noiseBuf;
+      var n = ctx.sampleRate * 2;
+      noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      return noiseBuf;
+    }
+
+    // ── SWAPPABLE BED BUILDERS ───────────────────────────────────────────────
+    // Burtt's condition: each bed is ONE function returning a node graph you
+    // can replace wholesale with a real 4-second field recording later — same
+    // wiring, same {output, lfos, stop} contract. Swap synth → sample here.
+    //   REPLACE-WITH-SAMPLE SEAM ↓  (buildOceanBed / buildCityBed)
+    function buildOceanBed(ctx) {
+      // Dark surf at dusk: low-passed noise "wash" that slowly breathes in and
+      // out (undertow), a deep swell tone underneath. Ominous, not a holiday.
+      var out = ctx.createGain(); out.gain.value = 0;
+      var surf = ctx.createBufferSource(); surf.buffer = loopNoise(ctx); surf.loop = true;
+      var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520; lp.Q.value = 0.3;
+      var wash = ctx.createGain(); wash.gain.value = 0.18;
+      // Slow swell: an LFO opens/closes the wash like waves rolling in.
+      var lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.12;
+      var lfoAmt = ctx.createGain(); lfoAmt.gain.value = 0.12;
+      lfo.connect(lfoAmt).connect(wash.gain);
+      surf.connect(lp).connect(wash).connect(out);
+      // Deep swell drone for the pit-of-stomach low end.
+      var swell = ctx.createOscillator(); swell.type = 'sine'; swell.frequency.value = 58;
+      var swellG = ctx.createGain(); swellG.gain.value = 0.06;
+      swell.connect(swellG).connect(out);
+      surf.start(); lfo.start(); swell.start();
+      return { output: out, stop: function (t) { surf.stop(t); lfo.stop(t); swell.stop(t); } };
+    }
+    function buildCityBed(ctx) {
+      // ROOFTOP AT 3AM — not TV static. The city summed into a deep, wide,
+      // low-frequency ROAR you feel more than hear; wind moving past you up
+      // high; a resonant "canyon" pad (sound bouncing between towers); and
+      // sparse, far-off car-passes drifting through the quiet. Spacious and
+      // lonely — mostly stillness, punctuated. No bright hiss, no mains buzz.
+      var out = ctx.createGain(); out.gain.value = 0;
+      var nodes = [];   // everything we start, so stop() can tear it all down
+
+      // 1) DEEP CITY ROAR — the whole sleeping city (HVAC + distant traffic)
+      // summed. Heavy lowpass so it's a felt rumble, not heard static. A slow
+      // LFO undulates the cutoff so the roar breathes instead of sitting flat.
+      var roar = ctx.createBufferSource(); roar.buffer = loopNoise(ctx); roar.loop = true;
+      var roarLp = ctx.createBiquadFilter(); roarLp.type = 'lowpass';
+      roarLp.frequency.value = 200; roarLp.Q.value = 0.4;
+      var roarG = ctx.createGain(); roarG.gain.value = 0.22;
+      var breathe = ctx.createOscillator(); breathe.type = 'sine'; breathe.frequency.value = 0.06;
+      var breatheAmt = ctx.createGain(); breatheAmt.gain.value = 70;   // cutoff sways ±70Hz
+      breathe.connect(breatheAmt).connect(roarLp.frequency);
+      roar.connect(roarLp).connect(roarG).connect(out);
+      roar.start(); breathe.start();
+      nodes.push(roar, breathe);
+
+      // 2) WIND ALOFT — you're up high. Gently bandpassed air that slowly
+      // swells and fades, giving altitude and openness.
+      var wind = ctx.createBufferSource(); wind.buffer = loopNoise(ctx); wind.loop = true;
+      var windBp = ctx.createBiquadFilter(); windBp.type = 'bandpass';
+      windBp.frequency.value = 500; windBp.Q.value = 0.7;
+      var windG = ctx.createGain(); windG.gain.value = 0.0;
+      var gust = ctx.createOscillator(); gust.type = 'sine'; gust.frequency.value = 0.08;
+      var gustAmt = ctx.createGain(); gustAmt.gain.value = 0.05;   // swells 0 → ~0.05
+      var gustBias = ctx.createConstantSource(); gustBias.offset.value = 0.05;
+      gust.connect(gustAmt).connect(windG.gain);
+      gustBias.connect(windG.gain);
+      wind.connect(windBp).connect(windG).connect(out);
+      wind.start(); gust.start(); gustBias.start();
+      nodes.push(wind, gust, gustBias);
+
+      // 3) CANYON PAD — two very low, quiet sine tones a fifth apart. The ear
+      // reads this low resonance as "big space between hard surfaces" — the
+      // sound of standing among tall buildings. This is what makes it feel
+      // like ARCHITECTURE rather than an open field.
+      [48, 72].forEach(function (f, i) {
+        var pad = ctx.createOscillator(); pad.type = 'sine'; pad.frequency.value = f;
+        var padG = ctx.createGain(); padG.gain.value = i === 0 ? 0.05 : 0.03;
+        pad.connect(padG).connect(out);
+        pad.start();
+        nodes.push(pad);
+      });
+
+      // 4) DISTANT CAR-PASSES — the loneliness. A single far-off vehicle drifts
+      // by every several seconds: filtered-noise swell that rises, peaks, and
+      // fades, panned by a slow filter sweep so it "moves" past. Self-reschedules
+      // on a randomized gap. The intermittency is what sells 3am.
+      var passGain = ctx.createGain(); passGain.gain.value = 0.0;
+      passGain.connect(out);
+      var passSrc = ctx.createBufferSource(); passSrc.buffer = loopNoise(ctx); passSrc.loop = true;
+      var passBp = ctx.createBiquadFilter(); passBp.type = 'bandpass'; passBp.Q.value = 1.4;
+      passBp.frequency.value = 350;
+      passSrc.connect(passBp).connect(passGain);
+      passSrc.start();
+      nodes.push(passSrc);
+
+      var stopped = false;
+      var passTimer = null;
+      function schedulePass() {
+        if (stopped) return;
+        var t = ctx.currentTime;
+        var dur = 2.2 + Math.random() * 1.6;     // a slow drift-by
+        // Doppler-ish filter sweep up then down as it "passes".
+        passBp.frequency.cancelScheduledValues(t);
+        passBp.frequency.setValueAtTime(220, t);
+        passBp.frequency.linearRampToValueAtTime(650, t + dur * 0.5);
+        passBp.frequency.linearRampToValueAtTime(180, t + dur);
+        // Amplitude swell in and out.
+        passGain.gain.cancelScheduledValues(t);
+        passGain.gain.setValueAtTime(0.0001, t);
+        passGain.gain.linearRampToValueAtTime(0.05 + Math.random() * 0.03, t + dur * 0.5);
+        passGain.gain.linearRampToValueAtTime(0.0001, t + dur);
+        // Next car: 4–11s of near-silence between events.
+        var gap = (dur + 4 + Math.random() * 7) * 1000;
+        passTimer = setTimeout(schedulePass, gap);
+      }
+      // First car drifts by a couple seconds after the bed settles.
+      passTimer = setTimeout(schedulePass, 2500);
+
+      // (All source nodes were started at creation above.)
+      return {
+        output: out,
+        stop: function (tm) {
+          stopped = true;
+          if (passTimer) clearTimeout(passTimer);
+          nodes.forEach(function (n) { try { n.stop(tm); } catch (e) {} });
+        }
+      };
+    }
+    //   REPLACE-WITH-SAMPLE SEAM ↑
+    var BED_BUILDERS = { ocean: buildOceanBed, city: buildCityBed };
+
+    // The currently-sounding bed. Started on first unlock, swapped on glitch.
+    var currentBed = null;
+    var BED_LEVEL = 0.9;   // steady-state loudness of the active bed
+
+    function startBed(name) {
+      var ctx = audio(); if (!ctx) return;
+      currentBed = BED_BUILDERS[name](ctx);
+      currentBed.output.connect(master);
+      currentBed.output.gain.setTargetAtTime(BED_LEVEL, ctx.currentTime, 0.4);
+    }
+
+    // The tear-crossfade: pull the outgoing bed apart (detune-dive + duck),
+    // rip the print-smear across the seam, bleed the incoming bed up. This is
+    // the audio analogue of the CMYK plates pulling apart and recombining.
+    function tearToBed(name) {
+      var ctx = audio(); if (!ctx) return;
+      var now = ctx.currentTime;
+      var old = currentBed;
+
+      // 1) Outgoing bed collapses — duck it fast under the tear.
+      if (old) {
+        old.output.gain.cancelScheduledValues(now);
+        old.output.gain.setValueAtTime(old.output.gain.value, now);
+        old.output.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+        old.stop(now + 0.6);
+      }
+
+      // 2) The PRINT-SMEAR: a short filtered-noise rip + a downward detune
+      // whoosh — the seam where one image tears into the next. Darker and
+      // wetter than the old channel-change; no tuner "chunk".
+      var dur = 0.32;
+      var frames = Math.floor(ctx.sampleRate * dur);
+      var buf = ctx.createBuffer(1, frames, ctx.sampleRate);
+      var data = buf.getChannelData(0);
+      for (var i = 0; i < frames; i++) {
+        var t = i / frames;
+        // Dense at the seam, thinning out — a wash of tearing static.
+        data[i] = (Math.random() * 2 - 1) * (1 - t) * 0.9;
+      }
+      var rip = ctx.createBufferSource(); rip.buffer = buf;
+      var ripBp = ctx.createBiquadFilter();
+      // Keep the seam bright — stay up in the hash, only a gentle downward
+      // settle. Not a doom-dive; the tear shouldn't feel dark.
+      ripBp.type = 'bandpass'; ripBp.Q.value = 1.0;
+      ripBp.frequency.setValueAtTime(2200, now);
+      ripBp.frequency.exponentialRampToValueAtTime(900, now + dur);
+      var ripG = ctx.createGain();
+      ripG.gain.setValueAtTime(0.0001, now);
+      ripG.gain.exponentialRampToValueAtTime(0.26, now + 0.02);
+      ripG.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      rip.connect(ripBp).connect(ripG).connect(master);
+      rip.start(now); rip.stop(now + dur);
+
+      // A light mid "tick" at the seam — the plates registering. Brief and
+      // bright, NOT a heavy sub-thud (that read as ominous / dark).
+      var tick = ctx.createOscillator(); tick.type = 'triangle';
+      tick.frequency.setValueAtTime(320, now);
+      tick.frequency.exponentialRampToValueAtTime(160, now + 0.08);
+      var tickG = ctx.createGain();
+      tickG.gain.setValueAtTime(0.0001, now);
+      tickG.gain.exponentialRampToValueAtTime(0.12, now + 0.008);
+      tickG.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      tick.connect(tickG).connect(master);
+      tick.start(now); tick.stop(now + 0.12);
+
+      // 3) Incoming bed bleeds up through the tear, resolving after the seam.
+      currentBed = BED_BUILDERS[name](ctx);
+      currentBed.output.connect(master);
+      currentBed.output.gain.setValueAtTime(0.0001, now + 0.14);
+      currentBed.output.gain.exponentialRampToValueAtTime(BED_LEVEL, now + 0.5);
+    }
+
+    function setMuted(next) {
+      muted = next;
+      muteBtn.setAttribute('aria-pressed', String(muted));
+      muteBtn.setAttribute('aria-label', muted ? 'Unmute soundscape' : 'Mute soundscape');
+      muteBtn.setAttribute('title', muted ? 'Unmute soundscape' : 'Mute soundscape');
+      if (master && actx) master.gain.setTargetAtTime(muted ? 0 : 1, actx.currentTime, 0.05);
+    }
+
+    function nextRev() {
+      idx = (idx + 1) % REVS.length;
+      return REVS[idx];
+    }
+
+    var audioUnlocked = false;
+    function glitch() {
+      if (busy) return;
+      busy = true;
+
+      // First interaction unlocks audio + reveals the mute control + starts
+      // the CURRENT poster's bed (so there's a "from" for the very first tear).
+      if (!audioUnlocked) {
+        audioUnlocked = true;
+        muteBtn.hidden = false;
+        startBed(REVS[idx].bed);
+      }
+
+      var rev = nextRev();
+      overlays.forEach(function (c) { c.src = base.src; });   // show outgoing frame
+
+      tearToBed(rev.bed);                 // audio: rip current bed into the next
+      poster.classList.add('glitching');  // visual: CMYK plates + digital slices
+
+      var swap = setTimeout(function () { base.src = rev.src; }, SWAP_AT);
+      var done = setTimeout(function () {
+        poster.classList.remove('glitching');
+        busy = false;
+      }, DURATION + 20);
+      poster._vhTimers = [swap, done];
+    }
+
+    // Click the poster to glitch; click the mute button to toggle sound only.
+    poster.addEventListener('click', function (e) {
+      if (e.target.closest('#poster-mute')) return;   // handled below
+      glitch();
+    });
+    poster.addEventListener('keydown', function (e) {
+      if (e.target.closest('#poster-mute')) return;
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); glitch(); }
+    });
+    muteBtn.addEventListener('click', function (e) {
+      e.stopPropagation();               // don't also trigger a glitch
+      setMuted(!muted);
+    });
+
+    // Preload the second revision so the first swap is instant.
+    var pre = new Image();
+    pre.src = REVS[1].src;
+  })();
+</script>

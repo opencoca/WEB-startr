@@ -809,7 +809,7 @@ mark {
   scroll-behavior: var(--sb)!important
 }
 [style*="--cur:"] {
-  cursor: var(--cur)!important
+  cursor: var(--cur, var(--cursor))!important
 }
 [style*="--cur:"]:hover {
   cursor: var(--cur, var(--cursor))
