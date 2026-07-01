@@ -1,7 +1,10 @@
 ---
 layout: default
-title: "Startr — Version History"
-description: "The Startr version history poster. Click it to glitch between revisions."
+title: "Version History — an interactive novel by Startr"
+description: "Some memories are saved. Others are just waiting to be rewritten. One choice changes everything."
+ogType: "article"
+ogImage: "/VersionHistory/imgs/og-version-history.jpg"
+ogImageAlt: "Version History — a woman on a cliff facing a cyberpunk skyline of memories"
 ---
 
 {#
@@ -83,6 +86,120 @@ description: "The Startr version history poster. Click it to glitch between revi
             <span class="mute-off" aria-hidden="true">✕</span>
           </button>
         </figure>
+      </section>
+
+      {# ── Share + subscribe. Mobile-first: single column on phones, the two
+           cards sit side-by-side from -md up. startr.style props for all
+           layout; the only scoped CSS is for the real <input>/<button> form
+           controls startr.style can't fully reach. ── #}
+      <section
+        style="--d: flex; --fd: column; --fd-md: row; gap: 1.5rem; --w: 100%; --maxw: 60rem; --m: auto;
+               --p: 0 1rem 4rem; --ai: stretch; --jc: center"
+      >
+        {# Share card #}
+        <div
+          class="vh-card"
+          style="--flex-md: 1; --bg: rgba(23, 26, 61, 0.55); --b: 1px solid rgba(255, 133, 206, 0.35);
+                 --radius: 10px; --p: 1.5rem; --ta: center"
+        >
+          <h2 style="--size: 1.35em; --weight: 600; --c: #fff; --mb: 0.35rem">Share the story</h2>
+          <p style="--size: 0.95em; --weight: 300; --lh: 1.6; --c: rgba(255,255,255,0.7); --mb: 1.25rem">
+            One choice changes everything. Send it to someone.
+          </p>
+
+          {# Native share (Web Share API) — shown only where supported; JS reveals it. #}
+          <button
+            id="vh-share"
+            type="button"
+            hidden
+            style="--d: inline-flex; --ai: center; --jc: center; gap: 0.6rem; --w: 100%; --h: 3rem;
+                   --size: 1em; --weight: 600; --c: #fff; --bg: #ff85ce; --b: none; --radius: 2rem;
+                   --cur: pointer; --mb: 0.75rem; --hvr-bg: #5e95ff"
+          >
+            <span aria-hidden="true">⇪</span> Share…
+          </button>
+
+          {# Fallback row — direct links, no third-party SDKs / no trackers. #}
+          <div
+            id="vh-share-fallback"
+            style="--d: flex; --fw: wrap; gap: 0.6rem; --jc: center"
+          >
+            <a class="vh-sbtn" data-net="x" href="#" target="_blank" rel="noopener" aria-label="Share on X">X</a>
+            <a class="vh-sbtn" data-net="facebook" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook">f</a>
+            <a class="vh-sbtn" data-net="bluesky" href="#" target="_blank" rel="noopener" aria-label="Share on Bluesky">🦋</a>
+            <a class="vh-sbtn" data-net="whatsapp" href="#" target="_blank" rel="noopener" aria-label="Share on WhatsApp">✆</a>
+            <a class="vh-sbtn" data-net="email" href="#" aria-label="Share by email">✉</a>
+            <button class="vh-sbtn" id="vh-copy" type="button" aria-label="Copy link" style="--p:;--m:;">🔗</button>
+          </div>
+          <p id="vh-copied" role="status" aria-live="polite"
+             style="--size: 0.8em; --c: #8effc6; --mt: 0.75rem; --mb: 0; --op: 0; --transition: opacity .25s">Link copied</p>
+        </div>
+
+        {# Subscribe card — wired to Mautic (nota.startr.cloud, form 7). #}
+        <div
+          class="vh-card"
+          style="--flex-md: 1; --bg: rgba(23, 26, 61, 0.55); --b: 1px solid rgba(94, 149, 255, 0.35);
+                 --radius: 10px; --p: 1.5rem; --ta: center"
+        >
+          <h2 style="--size: 1.35em; --weight: 600; --c: #fff; --mb: 0.35rem">Coming soon</h2>
+          <p style="--size: 0.95em; --weight: 300; --lh: 1.6; --c: rgba(255,255,255,0.7); --mb: 1.25rem">
+            Get told when <em>Version History</em> is playable. No spam — just the launch.
+          </p>
+
+          {#
+            Mautic form — posts to the same endpoint as the official embed
+            (//nota.startr.cloud/form/generate.js?id=7) but with our own
+            startr.style controls. Field names below were VERIFIED against the
+            live generator JS for form id 7 (alias: learnaboutversioncontrolhame):
+              mauticform[email]    — the subscriber email
+              mauticform[formId]   — 7
+              mauticform[formName] — learnaboutversioncontrolhame (required)
+              mauticform[return]   — post-submit redirect (blank = none)
+              mauticform[important]— spam honeypot: present + empty + hidden from
+                                     humans; a bot filling it makes Mautic reject.
+          #}
+          <form
+            id="vh-subscribe"
+            action="https://nota.startr.cloud/form/submit?formId=7"
+            method="post"
+            style="--d: flex; --fd: column; gap: 0.75rem"
+          >
+            <label for="vh-email" style="--d: none">Email address</label>
+            <input
+              id="vh-email"
+              type="email"
+              name="mauticform[email]"
+              required
+              autocomplete="email"
+              placeholder="you@example.com"
+              style="--w: 100%; --h: 3rem; --p: 0 1rem; --size: 1em; --radius: 2rem;
+                     --b: 1px solid rgba(255,255,255,0.3); --bg: rgba(255,255,255,0.06); --c: #fff"
+            />
+            {# Spam honeypot — off-screen, not tab-reachable, aria-hidden.
+               Real users never fill it; bots that autofill get rejected. #}
+            <input
+              type="text"
+              name="mauticform[important]"
+              value=""
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+              style="--pos: absolute; --left: -9999px; --w: 1px; --h: 1px; --of: hidden"
+            />
+            {# Mautic plumbing — required hidden fields (verified). #}
+            <input type="hidden" name="mauticform[formId]" value="7" />
+            <input type="hidden" name="mauticform[formName]" value="learnaboutversioncontrolhame" />
+            <input type="hidden" name="mauticform[return]" value="" />
+            <button
+              type="submit"
+              style="--d: inline-flex; --ai: center; --jc: center; --w: 100%; --h: 3rem; --size: 1em;
+                     --weight: 600; --c: #fff; --bg: #5e95ff; --b: none; --radius: 2rem; --cur: pointer;
+                     --hvr-bg: #ff85ce"
+            >Notify me</button>
+          </form>
+          <p id="vh-sub-status" role="status" aria-live="polite"
+             style="--size: 0.85em; --c: #8effc6; --mt: 0.75rem; --mb: 0; --minh: 1.2em"></p>
+        </div>
       </section>
 
     </div>
@@ -326,6 +443,47 @@ description: "The Startr version history poster. Click it to glitch between revi
     #poster.glitching .noise,
     #poster.glitching #poster-base { animation: none !important; }
     #poster .plate, #poster .slice, #poster .noise { display: none; }
+  }
+
+  /* ── Share buttons + form controls. These are real <input>/<button>/<a>
+     controls that startr.style's inline props can't fully reach (focus rings,
+     placeholder colour, circular icon buttons), so they live here, page-scoped
+     to the share/subscribe section. ── */
+  #vh-share:hover { filter: brightness(1.05); }
+  .vh-sbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    font: 600 1.1rem/1 'Source Sans Pro', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 100%;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  }
+  .vh-sbtn:hover,
+  .vh-sbtn:focus-visible {
+    background: rgba(255, 133, 206, 0.25);
+    border-color: #ff85ce;
+    outline: none;
+    transform: translateY(-1px);
+  }
+  #vh-subscribe input::placeholder { color: rgba(255, 255, 255, 0.45); }
+  #vh-subscribe input:focus-visible {
+    outline: none;
+    border-color: #5e95ff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  #vh-subscribe button:hover,
+  #vh-share:hover { transform: translateY(-1px); }
+
+  button{
+    /* no shadows */
+    box-shadow: none;
   }
 </style>
 
@@ -646,5 +804,88 @@ description: "The Startr version history poster. Click it to glitch between revi
     // Preload the second revision so the first swap is instant.
     var pre = new Image();
     pre.src = REVS[1].src;
+  })();
+
+  // ── Share + subscribe ────────────────────────────────────────────────────
+  // No third-party SDKs, no trackers: native Web Share API where available,
+  // hand-built share URLs as the fallback, and a background POST to Mautic.
+  (function () {
+    var url = location.href;
+    var title = document.title;
+    var text = 'Some memories are saved. Others are just waiting to be rewritten.';
+
+    // ── Native share (Web Share API) — reveal the button only if supported. ──
+    var shareBtn = document.getElementById('vh-share');
+    if (shareBtn && navigator.share) {
+      shareBtn.hidden = false;
+      shareBtn.addEventListener('click', function () {
+        navigator.share({ title: title, text: text, url: url }).catch(function () {/* user cancelled */});
+      });
+    }
+
+    // ── Fallback share links (no tracking; plain intent URLs). ──
+    var U = encodeURIComponent(url), T = encodeURIComponent(text), TT = encodeURIComponent(title);
+    var targets = {
+      x:        'https://twitter.com/intent/tweet?text=' + T + '&url=' + U,
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + U,
+      bluesky:  'https://bsky.app/intent/compose?text=' + T + '%20' + U,
+      whatsapp: 'https://wa.me/?text=' + T + '%20' + U,
+      email:    'mailto:?subject=' + TT + '&body=' + T + '%0A%0A' + U
+    };
+    document.querySelectorAll('.vh-sbtn[data-net]').forEach(function (a) {
+      var href = targets[a.getAttribute('data-net')];
+      if (href) a.setAttribute('href', href);
+    });
+
+    // ── Copy link. ──
+    var copyBtn = document.getElementById('vh-copy');
+    var copied = document.getElementById('vh-copied');
+    function flash(el) {
+      if (!el) return;
+      el.style.setProperty('--op', '1');
+      setTimeout(function () { el.style.setProperty('--op', '0'); }, 1800);
+    }
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        var done = function () { flash(copied); };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(done, done);
+        } else {
+          // Legacy fallback.
+          var ta = document.createElement('textarea');
+          ta.value = url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta); done();
+        }
+      });
+    }
+
+    // ── Subscribe → Mautic (nota.startr.cloud, form 7). ──
+    // POST in the background so the visitor stays on the poster page. Mautic
+    // accepts the standard form-encoded body; we don't need the response (its
+    // CORS headers may block reading it), so a no-cors fire-and-confirm is the
+    // resilient choice — we optimistically confirm on a resolved fetch.
+    var form = document.getElementById('vh-subscribe');
+    var status = document.getElementById('vh-sub-status');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var emailEl = document.getElementById('vh-email');
+        if (!emailEl || !emailEl.checkValidity()) { if (emailEl) emailEl.reportValidity(); return; }
+        if (status) { status.style.setProperty('--c', '#8effc6'); status.textContent = 'Signing you up…'; }
+        var body = new FormData(form);
+        fetch(form.action, { method: 'POST', body: body, mode: 'no-cors' })
+          .then(function () {
+            if (status) status.textContent = "You're on the list. We'll be in touch.";
+            form.reset();
+          })
+          .catch(function () {
+            if (status) {
+              status.style.setProperty('--c', '#ff9ba0');
+              status.textContent = 'Something went wrong — try again in a moment.';
+            }
+          });
+      });
+    }
   })();
 </script>

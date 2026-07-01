@@ -5,11 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title | default("Startr — Every project tells a story") }}</title>
     <meta name="description" content="{{ description | default("Startr helps people and organizations tell their stories through technology, education, and creative tools.") }}">
+
+    {# ── Canonical + social share meta (data-driven) ──
+       Absolute URLs are built from site.url (scrapers reject relative paths).
+       Per-page overrides via front matter: title, description, ogImage. #}
+    {%- set pageUrl = site.url + (page.url | default("/")) -%}
+    {%- set shareImage = site.url + (ogImage | default(site.defaultOgImage)) -%}
+    <link rel="canonical" href="{{ pageUrl }}">
+
     <meta property="og:site_name" content="Startr">
     <meta property="og:title" content="{{ title | default("Startr") }}">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="{{ ogType | default("website") }}">
     <meta property="og:description" content="{{ description | default("Every project tells a story.") }}">
-    <meta property="og:url" content="https://startr.ca">
+    <meta property="og:url" content="{{ pageUrl }}">
+    <meta property="og:image" content="{{ shareImage }}">
+    <meta property="og:image:width" content="{{ ogImageWidth | default(1200) }}">
+    <meta property="og:image:height" content="{{ ogImageHeight | default(630) }}">
+    <meta property="og:image:alt" content="{{ ogImageAlt | default(title) | default("Startr") }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title | default("Startr") }}">
+    <meta name="twitter:description" content="{{ description | default("Every project tells a story.") }}">
+    <meta name="twitter:image" content="{{ shareImage }}">
+    {%- if site.twitter %}
+    <meta name="twitter:site" content="{{ site.twitter }}">
+    {%- endif %}
+
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://startr.style/startr.css">
     <style>
