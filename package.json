@@ -13,6 +13,7 @@
   "author": "",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@11ty/eleventy": "^2.0.1",
+    "@netlify/plugin-lighthouse": "^6.0.4"
   }
 }
