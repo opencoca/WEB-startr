@@ -1,18 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title | default("Startr — Every project tells a story") }}</title>
-  <meta name="description" content="{{ description | default("Startr helps people and organizations tell their stories through technology, education, and creative tools.") }}">
-  <meta property="og:site_name" content="Startr">
-  <meta property="og:title" content="{{ title | default("Startr") }}">
-  <meta property="og:type" content="website">
-  <meta property="og:description" content="{{ description | default("Every project tells a story.") }}">
-  <meta property="og:url" content="https://startr.ca">
-  <link rel="stylesheet" href="https://startr.style/startr.css">
-</head>
-<body style="--m:0; --p:0;">
-  {{ content | safe }}
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title | default("Startr — Every project tells a story") }}</title>
+    <meta name="description" content="{{ description | default("Startr helps people and organizations tell their stories through technology, education, and creative tools.") }}">
+    <meta property="og:site_name" content="Startr">
+    <meta property="og:title" content="{{ title | default("Startr") }}">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{{ description | default("Every project tells a story.") }}">
+    <meta property="og:url" content="https://startr.ca">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://startr.style/startr.css">
+    <style>
+      body {
+        font-family: 'Source Sans Pro', sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        min-width: 320px;
+        overflow-x: hidden;
+        word-wrap: break-word;
+        line-height: 1;
+      }
+
+      /* Fixed gradient background */
+      body::before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+        background-image: linear-gradient(180deg, #171A3D 25%, #4B3870 100%);
+      }
+
+      /* Loading overlay */
+      body::after {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #171A3D;
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 1s ease-in-out, visibility 1s;
+      }
+      body.is-loading::after {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Wrapper and main */
+      #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        position: relative;
+        z-index: 2;
+      }
+      #main {
+        display: flex;
+        position: relative;
+        max-width: 100%;
+        z-index: 1;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: opacity 1s ease 0.125s, transform 1s ease 0.125s;
+      }
+      body.is-loading #main {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+
+
+
+      /* Link transitions */
+      a {
+        transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+        color: inherit;
+      }
+      strong {
+        color: inherit;
+        font-weight: bolder;
+      }
+    </style>
+    <noscript>
+      <style>
+        body::after {
+          display: none !important;
+        }
+        #main {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="is-loading" style="--size:12pt; --size-lg:14pt; --size-xl:22pt;">
+    {{ content | safe }}
+    <script>
+      addEventListener('load', function () {
+        setTimeout(function () {
+          document
+            .body
+            .classList
+            .remove('is-loading');
+        }, 100);
+      });
+    </script>
+  </body>
 </html>
