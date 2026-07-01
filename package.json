@@ -1,0 +1,18 @@
+{
+  "name": "web-startr",
+  "version": "0.4.0",
+  "description": "Startr.ca website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd src && npx @11ty/eleventy --serve --output=../_site",
+    "build": "cd src && npx @11ty/eleventy --output=../_site",
+    "buildfresh": "rm -rf _site && mkdir _site && cd src && npx @11ty/eleventy --output=../_site"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

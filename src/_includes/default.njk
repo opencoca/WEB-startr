@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title | default("Startr — Every project tells a story") }}</title>
+  <meta name="description" content="{{ description | default("Startr helps people and organizations tell their stories through technology, education, and creative tools.") }}">
+  <meta property="og:site_name" content="Startr">
+  <meta property="og:title" content="{{ title | default("Startr") }}">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="{{ description | default("Every project tells a story.") }}">
+  <meta property="og:url" content="https://startr.ca">
+  <link rel="stylesheet" href="https://startr.style/startr.css">
+</head>
+<body style="--m:0; --p:0;">
+  {{ content | safe }}
+</body>
+</html>
