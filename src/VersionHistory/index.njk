@@ -103,7 +103,7 @@ ogImageAlt: "Version History — a woman on a cliff facing a cyberpunk skyline o
                  --radius: 10px; --p: 1.5rem; --ta: center"
         >
           <h2 style="--size: 1.35em; --weight: 600; --c: #fff; --mb: 0.35rem">Share the story</h2>
-          <p style="--size: 0.95em; --weight: 300; --lh: 1.6; --c: rgba(255,255,255,0.7); --mb: 1.25rem">
+          <p style="--size: 0.95em; --weight: 300; --lh: 1.6; --c: rgba(255,255,255,0.7);">
             One choice changes everything. Send it to someone.
           </p>
 
@@ -122,7 +122,7 @@ ogImageAlt: "Version History — a woman on a cliff facing a cyberpunk skyline o
           {# Fallback row — direct links, no third-party SDKs / no trackers. #}
           <div
             id="vh-share-fallback"
-            style="--d: flex; --fw: wrap; gap: 0.6rem; --jc: center"
+            style="--d: flex; --fw: wrap; gap: 0.6rem; --jc: center; --mt: 0.6rem"
           >
             <a class="vh-sbtn" data-net="x" href="#" target="_blank" rel="noopener" aria-label="Share on X">X</a>
             <a class="vh-sbtn" data-net="facebook" href="#" target="_blank" rel="noopener" aria-label="Share on Facebook">f</a>
@@ -143,7 +143,7 @@ ogImageAlt: "Version History — a woman on a cliff facing a cyberpunk skyline o
         >
           <h2 style="--size: 1.35em; --weight: 600; --c: #fff; --mb: 0.35rem">Coming soon</h2>
           <p style="--size: 0.95em; --weight: 300; --lh: 1.6; --c: rgba(255,255,255,0.7); --mb: 1.25rem">
-            Get told when <em>Version History</em> is playable. No spam — just the launch.
+            Get told when <em>Version History</em> is playable. No spam, just the launch.
           </p>
 
           {#
@@ -814,12 +814,27 @@ ogImageAlt: "Version History — a woman on a cliff facing a cyberpunk skyline o
     var title = document.title;
     var text = 'Some memories are saved. Others are just waiting to be rewritten.';
 
-    // ── Native share (Web Share API) — reveal the button only if supported. ──
+    // ── Native share (Web Share API) — reveal the big button ONLY where it
+    // genuinely works well: the API must be present AND actually able to share
+    // this URL payload (canShare), AND the device should be touch/coarse-pointer
+    // (phones/tablets), where the native sheet is a first-class experience.
+    // Desktop — even when it exposes navigator.share — gets the explicit share
+    // buttons instead, which are a cleaner path there. ──
     var shareBtn = document.getElementById('vh-share');
-    if (shareBtn && navigator.share) {
+    var payload = { title: title, text: text, url: url };
+    // canShare confirms the payload is shareable; treat its absence conservatively
+    // (older WebViews have share but not canShare) and fall back to a UA/touch test.
+    var apiCapable = !!navigator.share &&
+      (typeof navigator.canShare !== 'function' || navigator.canShare(payload));
+    // Coarse pointer OR real touch points = handheld; matchMedia guarded for old browsers.
+    var isHandheld =
+      (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) ||
+      (navigator.maxTouchPoints || 0) > 0;
+
+    if (shareBtn && apiCapable && isHandheld) {
       shareBtn.hidden = false;
       shareBtn.addEventListener('click', function () {
-        navigator.share({ title: title, text: text, url: url }).catch(function () {/* user cancelled */});
+        navigator.share(payload).catch(function () {/* user cancelled — no-op */});
       });
     }
 

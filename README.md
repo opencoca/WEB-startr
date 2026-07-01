@@ -25,14 +25,14 @@ Run `make` (or `make help`) to see all available targets.
 | --- | --- |
 | `make it_run` | Dev server via Startr.sh |
 | `make it_build` | Build static site via Startr.sh |
-| `make it_docker_build` | Build multi-stage Docker image (Eleventy + nginx) |
+| `make it_docker_build` | Build Docker image (Eleventy + nginx) |
 | `make it_docker_run` | Build and run container on port 8080 |
 | `make deploy` | Deploy to CapRover |
-| `make it_build_multi_arch_push_GHCR` | Multi-arch build and push to GitHub Container Registry |
+| `make it_build_multi_arch_push_GHCR` | Build amd64+arm64 and push to GHCR |
 
-## Releases (git-flow)
+## Releases
 
-This project uses [git-flow-next](https://github.com/git-flow-next/git-flow-next) (`brew install git-flow-next`).
+We use [git-flow-next](https://github.com/git-flow-next/git-flow-next) (`brew install git-flow-next`).
 
 ```bash
 make patch_release      # bump 0.4.0 → 0.4.1
@@ -41,14 +41,14 @@ make major_release      # bump 0.4.0 → 1.0.0
 make release_finish     # merge, tag, push
 ```
 
-## Setting up your Build Environment
+## Setting up your build environment
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v18+)
-- [git-flow-next](https://github.com/git-flow-next/git-flow-next) — `brew install git-flow-next`
-- [Docker](https://www.docker.com/) (optional, for containerized builds)
-- [CapRover CLI](https://caprover.com/) (optional, for deploys) — `npm install -g caprover`
+- [git-flow-next](https://github.com/git-flow-next/git-flow-next) -- `brew install git-flow-next`
+- [Docker](https://www.docker.com/) (optional, if you want to build containers)
+- [CapRover CLI](https://caprover.com/) (optional, if you deploy to CapRover) -- `npm install -g caprover`
 
 ### Linux (Debian/Ubuntu)
 
@@ -61,7 +61,7 @@ sudo apt-get install git zlib1g-dev
 
 ### Create your ssh key
 
-It's simpler to work with repos if you have your ssh key setup. 
+It's simpler to work with repos if you have your ssh key setup.
 
 ```bash
 username@username-computername:~$ ssh-keygen
@@ -75,7 +75,7 @@ If you are not dealing with a high sercurity project and you trust your computer
 
 ### Find and use your public ssh key
 
-To show your ssh key use command  `cat /home/username/.ssh/id_rsa.pub` 
+To show your ssh key use command `cat /home/username/.ssh/id_rsa.pub`
 
 Your ssh key can be used to securly connect to servers and services. To use your ssh key with Github follow the always up to date [Github SSH Guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
@@ -89,22 +89,20 @@ I recomend ~/Documents/Projects
 
 Fork and Clone the folowing repos to your machine
 
-* https://github.com/opencoca/startr
-* https://github.com/opencoca/simpleweb
-* https://github.com/opencoca/lt2d_school
-* https://github.com/opencoca/lt2d_school_admin
-
+- <https://github.com/opencoca/startr>
+- <https://github.com/opencoca/simpleweb>
+- <https://github.com/opencoca/lt2d_school>
+- <https://github.com/opencoca/lt2d_school_admin>
 
 > Note: our team uses master repos with submodules. If work on many projects with our team ask your supervisor if you're eligable for access to parent repos
 
-To clone a repo to directory of your choosing open up your terminal, cd (or pushd) to the directory of your choosing and run :
+To clone a repo to directory of your choosing open up your terminal, cd (or pushd) to the directory of your choosing and run:
 `git clone https://github.com/opencoca/startr`
-`git clone git@github.com:username/project.git` 
-
+`git clone git@github.com:username/project.git`
 
 (found by clicking dropdown on download)
 
-## Make sure that you're aware of what the following git commands do
+## Git commands you should know
 
 ```bash
 git config --global user.email "yourname@something.com"
@@ -121,9 +119,9 @@ git push
 
 ## Use Pyenv and Pipenv
 
-Pyenv lets you easily switch between multiple versions of Python. It's simple, unobtrusive, and follows the UNIX tradition of single-purpose tools that do one thing well. **Pipenv** is a tool that aims to bring the best of all packaging worlds (bundler, composer, npm, cargo, yarn, etc.) to the Python world. Pipenv and Pyenv work well together allowing you to work on projects that  have differing needs.
+Pyenv lets you switch between multiple versions of Python. Pipenv manages per-project dependencies (similar to npm or bundler but for Python). They work well together when you have projects that need different Python versions.
 
-https://github.com/pyenv/pyenv-installer
+<https://github.com/pyenv/pyenv-installer>
 
 ### Pyenv Install
 
@@ -134,7 +132,7 @@ $ curl https://pyenv.run | bash
 
 `pyenv.run` redirects to the install script in this repository and the invocation above is equivalent to:
 
-$ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+`curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash`
 
 Restart your shell so the path changes take effect:
 
@@ -147,7 +145,7 @@ You can now begin using pyenv.
 
 ### Pipenv Install
 
-Pipenv is primarily meant to provide users and developers of applications with an easy method to setup a working environment.
+Pipenv gives you a straightforward way to set up a working environment for your project.
 
 Install pipenv using python's pip
 
@@ -157,4 +155,4 @@ Install pipenv using python's pip
 
 Copyright 2019–2026 12787326 Canada Inc.
 
-Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
+Licensed under the [AGPLv3](https://opensource.org/licenses/agpl-3.0).
