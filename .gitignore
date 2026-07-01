@@ -1,0 +1,17 @@
+# Hidden-artifact allowlist: deny dotfiles and dotfolders everywhere in the
+# repo unless they are intentionally shared and explicitly included below.
+.*
+!/.gitignore
+!/.gitattributes
+!/.dockerignore
+!/.editorconfig
+!.*.example
+!.eleventy.js
+
+# Build & runtime junk
+node_modules/
+dist/
+_site/
+*.log
+*.swp
+*.tgz
