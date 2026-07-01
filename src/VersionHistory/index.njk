@@ -517,65 +517,76 @@ description: "The Startr version history poster. Click it to glitch between revi
       currentBed.output.gain.setTargetAtTime(BED_LEVEL, ctx.currentTime, 0.4);
     }
 
-    // The tear-crossfade: pull the outgoing bed apart (detune-dive + duck),
-    // rip the print-smear across the seam, bleed the incoming bed up. This is
-    // the audio analogue of the CMYK plates pulling apart and recombining.
+    // The tear = a CONTINUOUS MORPH, mirroring the animation: the two beds
+    // crossfade *through* each other over the whole transition while a filter
+    // sweep rides across the seam. NOT a drum hit over a hard swap — the old
+    // bed audibly BECOMES the new one. No sharp-attack noise burst (that read
+    // as a snare); the "glitch" texture is a wash that swells with the fade.
     function tearToBed(name) {
       var ctx = audio(); if (!ctx) return;
       var now = ctx.currentTime;
       var old = currentBed;
+      var XF = DURATION / 1000;          // crossfade spans the full transition
+      var mid = now + XF * 0.5;          // the seam — where they cross ~50%
+      var end = now + XF;
 
-      // 1) Outgoing bed collapses — duck it fast under the tear.
+      // ── 1) OUTGOING bed: fade out on an equal-power curve AND close a lowpass
+      // over it, so it doesn't just get quieter — it gets *muffled/pulled away*,
+      // like the plate sliding off. Route it through a temp filter to do that. ──
       if (old) {
+        var oldLp = ctx.createBiquadFilter();
+        oldLp.type = 'lowpass';
+        oldLp.frequency.setValueAtTime(18000, now);
+        oldLp.frequency.exponentialRampToValueAtTime(160, end);   // close = pull away (−1 oct)
+        // Re-route: old bed → oldLp → master (instead of straight to master).
+        try { old.output.disconnect(); } catch (e) {}
+        old.output.connect(oldLp); oldLp.connect(master);
         old.output.gain.cancelScheduledValues(now);
         old.output.gain.setValueAtTime(old.output.gain.value, now);
-        old.output.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
-        old.stop(now + 0.6);
+        // Equal-power-ish fade: cosine taper via setValueCurve.
+        var N = 24, outCurve = new Float32Array(N);
+        for (var k = 0; k < N; k++) {
+          var x = k / (N - 1);
+          outCurve[k] = Math.cos(x * Math.PI / 2) * BED_LEVEL;   // 1→0, energy-preserving
+        }
+        old.output.gain.setValueCurveAtTime(outCurve, now, XF);
+        old.stop(end + 0.15);
       }
 
-      // 2) The PRINT-SMEAR: a short filtered-noise rip + a downward detune
-      // whoosh — the seam where one image tears into the next. Darker and
-      // wetter than the old channel-change; no tuner "chunk".
-      var dur = 0.32;
-      var frames = Math.floor(ctx.sampleRate * dur);
-      var buf = ctx.createBuffer(1, frames, ctx.sampleRate);
-      var data = buf.getChannelData(0);
-      for (var i = 0; i < frames; i++) {
-        var t = i / frames;
-        // Dense at the seam, thinning out — a wash of tearing static.
-        data[i] = (Math.random() * 2 - 1) * (1 - t) * 0.9;
-      }
-      var rip = ctx.createBufferSource(); rip.buffer = buf;
-      var ripBp = ctx.createBiquadFilter();
-      // Keep the seam bright — stay up in the hash, only a gentle downward
-      // settle. Not a doom-dive; the tear shouldn't feel dark.
-      ripBp.type = 'bandpass'; ripBp.Q.value = 1.0;
-      ripBp.frequency.setValueAtTime(2200, now);
-      ripBp.frequency.exponentialRampToValueAtTime(900, now + dur);
-      var ripG = ctx.createGain();
-      ripG.gain.setValueAtTime(0.0001, now);
-      ripG.gain.exponentialRampToValueAtTime(0.26, now + 0.02);
-      ripG.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-      rip.connect(ripBp).connect(ripG).connect(master);
-      rip.start(now); rip.stop(now + dur);
-
-      // A light mid "tick" at the seam — the plates registering. Brief and
-      // bright, NOT a heavy sub-thud (that read as ominous / dark).
-      var tick = ctx.createOscillator(); tick.type = 'triangle';
-      tick.frequency.setValueAtTime(320, now);
-      tick.frequency.exponentialRampToValueAtTime(160, now + 0.08);
-      var tickG = ctx.createGain();
-      tickG.gain.setValueAtTime(0.0001, now);
-      tickG.gain.exponentialRampToValueAtTime(0.12, now + 0.008);
-      tickG.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-      tick.connect(tickG).connect(master);
-      tick.start(now); tick.stop(now + 0.12);
-
-      // 3) Incoming bed bleeds up through the tear, resolving after the seam.
+      // ── 2) INCOMING bed: fade IN on the complementary curve while a lowpass
+      // OPENS over it — it emerges *from behind the muffle*, resolving bright
+      // on the far side of the seam. Starts now (not after the seam) so the two
+      // genuinely overlap and blend. ──
       currentBed = BED_BUILDERS[name](ctx);
-      currentBed.output.connect(master);
-      currentBed.output.gain.setValueAtTime(0.0001, now + 0.14);
-      currentBed.output.gain.exponentialRampToValueAtTime(BED_LEVEL, now + 0.5);
+      var newLp = ctx.createBiquadFilter();
+      newLp.type = 'lowpass';
+      newLp.frequency.setValueAtTime(160, now);
+      newLp.frequency.exponentialRampToValueAtTime(18000, end);   // open = arrive (−1 oct floor)
+      currentBed.output.disconnect && currentBed.output.disconnect();
+      currentBed.output.connect(newLp); newLp.connect(master);
+      currentBed.output.gain.cancelScheduledValues(now);
+      var M = 24, inCurve = new Float32Array(M);
+      for (var j = 0; j < M; j++) {
+        var y = j / (M - 1);
+        inCurve[j] = Math.sin(y * Math.PI / 2) * BED_LEVEL;       // 0→1, complements the cosine
+      }
+      currentBed.output.gain.setValueCurveAtTime(inCurve, now, XF);
+
+      // ── 3) SEAM WASH: a soft band of noise that SWELLS IN and OUT with the
+      // crossfade (slow attack, no transient) plus a filter sweep — the audible
+      // "smear" of the plates passing through each other. Because it has no
+      // sharp onset, it reads as a whoosh/morph, not a hit. ──
+      var wn = ctx.createBufferSource(); wn.buffer = loopNoise(ctx); wn.loop = true;
+      var wnBp = ctx.createBiquadFilter(); wnBp.type = 'bandpass'; wnBp.Q.value = 0.8;
+      wnBp.frequency.setValueAtTime(250, now);
+      wnBp.frequency.exponentialRampToValueAtTime(1300, mid);     // sweep up to the seam… (−1 oct)
+      wnBp.frequency.exponentialRampToValueAtTime(250, end);      // …and back down
+      var wnG = ctx.createGain();
+      wnG.gain.setValueAtTime(0.0001, now);
+      wnG.gain.linearRampToValueAtTime(0.12, mid);                // swell (no transient)
+      wnG.gain.linearRampToValueAtTime(0.0001, end);              // fade
+      wn.connect(wnBp).connect(wnG).connect(master);
+      wn.start(now); wn.stop(end + 0.05);
     }
 
     function setMuted(next) {
